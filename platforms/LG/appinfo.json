@@ -1,0 +1,11 @@
+{
+  "vendor": "Hearst TV",
+  "largeIcon": "largeIcon.png",
+  "icon": "icon.png",
+  "main": "index.html",
+  "id": "com.verylocal.app",
+  "title": "Very Local",
+  "type": "web",
+  "version": "1.0.24",
+  "disableBackHistoryAPI": true
+}

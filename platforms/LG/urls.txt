@@ -1,0 +1,2 @@
+OpenShift: http://hearst-verylocal-ctv-lg-hearst-verylocal.ocs.ps.accedo.tv/
+Hearst Prod: https://ctvapps-prod-lg.htvapps.com/
