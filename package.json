@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build_samsung": "tsc && vite build && cp -r dist/* platforms/Tizen && tizen package -t wgt -s tvvix -- platforms/Tizen",
+    "deploy_samsung": "tizen install -n VeryLocal.wgt -- platforms/Tizen",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
