@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite'
-import legacy from '@vitejs/plugin-legacy'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite';
+import legacy from '@vitejs/plugin-legacy';
+import react from '@vitejs/plugin-react-swc';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '',
   build: {
-    target: 'ES2015'
+    target: 'ES2015',
   },
   plugins: [
     react(),
@@ -14,4 +14,11 @@ export default defineConfig({
       targets: ['chrome >= 56'],
     }),
   ],
-})
+  test: {
+    // 👋 add the line below to add jsdom to vite
+    environment: 'jsdom',
+    // hey! 👋 over here
+    globals: true,
+    setupFiles: './src/tests/setup.ts', // assuming the test folder is in the root of our project
+  },
+});
