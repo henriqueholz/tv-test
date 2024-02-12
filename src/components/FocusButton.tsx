@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   FocusContext,
   setFocus,
   useFocusable,
 } from '@noriginmedia/norigin-spatial-navigation';
+import { Link } from 'react-router-dom';
 
 const FocusButton: React.FC<any> = ({
   theme: propsTheme = {},
@@ -15,15 +16,15 @@ const FocusButton: React.FC<any> = ({
   focusKey: focusKeyParam,
   onArrowPress,
   onFocus,
+  to,
+  onEnterPress,
 }) => {
   const { ref, focused, focusKey } = useFocusable({
-    onEnterPress: onClick,
+    onEnterPress,
     focusKey: focusKeyParam,
     onArrowPress,
     onFocus,
   });
-
-  const clickNode = useRef<HTMLButtonElement>(null);
 
   const handleMouseOver = () => {
     setFocus(focusKey);
@@ -35,14 +36,15 @@ const FocusButton: React.FC<any> = ({
 
   return (
     <FocusContext.Provider value={focusKey}>
-      <div style={style} ref={ref} onMouseOver={handleMouseOver}>
-        <button
-          ref={clickNode}
-          style={{ backgroundColor: focused ? 'red' : 'blue' }}
-          onClick={handleButtonClick}
-        >
-          {children}
-        </button>
+      <div
+        style={style}
+        ref={ref}
+        onMouseOver={handleMouseOver}
+        className={className}
+        onClick={handleButtonClick}
+        style={{ backgroundColor: focused ? 'red' : 'blue' }}
+      >
+        <Link to={to}>{children}</Link>
       </div>
     </FocusContext.Provider>
   );

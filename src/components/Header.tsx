@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
+import verylocal from '../assets/verylocal.svg';
+import settingsIcon from '../assets/ic-settings.svg';
+import searchIcon from '../assets/ic-search.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const middleMenuItems = [
   {
@@ -15,12 +19,14 @@ export const middleMenuItems = [
 
 export const rightMenuItems = [
   {
-    displayText: 'Search',
+    image: searchIcon,
     to: '/search',
+    alt: 'Search',
   },
   {
-    displayText: 'Settings',
+    image: settingsIcon,
     to: '/settings',
+    alt: 'Settings',
   },
 ];
 
@@ -29,18 +35,29 @@ export default function Header() {
     setFocus('Home');
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleNavigate = (url: string) => {
+    navigate(url);
+  };
+
   return (
     <header className='flex items-center justify-between bg-gray-800 px-4 py-3 text-white'>
       <div className='flex items-center'>
-        {/* <img src="/logo.png" alt="Logo" className="h-8 mr-2" /> */}
-        <span className='text-lg font-bold'>Your Logo</span>
+        <img src={verylocal} alt='Logo' className='mr-2 h-8' />
       </div>
       <div className='flex flex-grow items-center justify-center'>
-        <div>
+        <div className='flex'>
           {middleMenuItems.map((item, index) => {
             return (
-              <FocusButton key={index} focusKey={item.displayText}>
-                <a href={item.to}>{item.displayText}</a>
+              <FocusButton
+                key={index}
+                focusKey={item.displayText}
+                className='bg-magenta mr-4 flex-1 border-2 border-yellow-500'
+                to={item.to}
+                onEnterPress={() => handleNavigate(item.to)}
+              >
+                {item.displayText}
               </FocusButton>
             );
           })}
@@ -49,8 +66,11 @@ export default function Header() {
       <div className='flex items-center'>
         {rightMenuItems.map((item, index) => {
           return (
-            <FocusButton key={index}>
-              <a href={item.to}>{item.displayText}</a>
+            <FocusButton
+              key={index}
+              className='bg-magenta mr-4 flex-1 border-2 border-yellow-500'
+            >
+              <img src={item.image} alt={item.alt}></img>
             </FocusButton>
           );
         })}

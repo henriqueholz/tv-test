@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
-import MockComponent from './MockComponents';
 
 export default function Home() {
   useEffect(() => {
@@ -19,7 +18,7 @@ export default function Home() {
           marginRight: '96px',
         }}
       >
-        <MockComponent
+        <FocusButton
           focusKey='mock1'
           style={{
             backgroundColor: 'purple',
@@ -29,8 +28,8 @@ export default function Home() {
           }}
         >
           Weather Widget
-        </MockComponent>
-        <MockComponent
+        </FocusButton>
+        <FocusButton
           focusKey='mock2'
           style={{
             backgroundColor: 'red',
@@ -40,9 +39,9 @@ export default function Home() {
           }}
         >
           Weather Widget
-        </MockComponent>
+        </FocusButton>
 
-        <MockComponent
+        <FocusButton
           focusKey='mock3'
           style={{
             flex: 1,
@@ -50,8 +49,8 @@ export default function Home() {
           }}
         >
           Show Promo
-        </MockComponent>
-        <MockComponent
+        </FocusButton>
+        <FocusButton
           focusKey='mock4'
           style={{
             flex: 1,
@@ -59,7 +58,7 @@ export default function Home() {
           }}
         >
           Show Promo
-        </MockComponent>
+        </FocusButton>
       </div>
     </div>
   );
