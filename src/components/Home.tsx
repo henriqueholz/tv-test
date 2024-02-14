@@ -8,57 +8,42 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <div>player</div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          marginLeft: '34px',
-          marginRight: '96px',
-        }}
+    <div className='flex h-[640px]'>
+      <FocusButton
+        focusKey='player-container'
+        focusedClassName='border-4 border-hero-blue'
       >
-        <FocusButton
-          focusKey='mock1'
-          style={{
-            backgroundColor: 'purple',
-            height: '120px',
-            marginTop: '16px',
-            marginBottom: '16px',
-          }}
-        >
-          Weather Widget
-        </FocusButton>
-        <FocusButton
-          focusKey='mock2'
-          style={{
-            backgroundColor: 'red',
-            height: '120px',
-            marginTop: '16px',
-            marginBottom: '16px',
-          }}
-        >
-          Weather Widget
-        </FocusButton>
-
-        <FocusButton
-          focusKey='mock3'
-          style={{
-            flex: 1,
-            backgroundColor: 'green',
-          }}
-        >
-          Show Promo
-        </FocusButton>
-        <FocusButton
-          focusKey='mock4'
-          style={{
-            flex: 1,
-            backgroundColor: 'blue',
-          }}
-        >
-          Show Promo
-        </FocusButton>
+        <div className='h-[640px] w-[1130px] bg-amber-500'>PLAYER</div>
+      </FocusButton>
+      <div>
+        <div>
+          <FocusButton
+            focusKey='mock1'
+            focusedClassName='border-4 border-hero-blue'
+          >
+            <div className='h-[120px] w-[564px] bg-zinc-500'>mock 1</div>
+          </FocusButton>
+          <FocusButton
+            focusKey='mock2'
+            focusedClassName='border-4 border-hero-blue'
+          >
+            <div className='h-[120px] w-[564px] bg-stone-700'>mock2</div>
+          </FocusButton>
+        </div>
+        <div className='flex'>
+          <FocusButton
+            focusedClassName='border-4 border-hero-blue'
+            focusKey='mock3'
+          >
+            <div className='h-[365px] w-[274px] bg-red-500'>mock3</div>
+          </FocusButton>
+          <FocusButton
+            focusedClassName='border-4 border-hero-blue'
+            focusKey='mock4'
+          >
+            <div className='h-[365px] w-[274px] bg-orange-500'>mock4</div>
+          </FocusButton>
+        </div>
       </div>
     </div>
   );
