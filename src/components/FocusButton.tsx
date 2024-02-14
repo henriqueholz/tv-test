@@ -7,17 +7,15 @@ import {
 import { Link } from 'react-router-dom';
 
 const FocusButton: React.FC<any> = ({
-  theme: propsTheme = {},
-  style = {},
   className = '',
   onClick,
   children,
-  isActive,
   focusKey: focusKeyParam,
   onArrowPress,
   onFocus,
   to,
   onEnterPress,
+  focusedClassName = '',
 }) => {
   const { ref, focused, focusKey } = useFocusable({
     onEnterPress,
@@ -37,12 +35,10 @@ const FocusButton: React.FC<any> = ({
   return (
     <FocusContext.Provider value={focusKey}>
       <div
-        style={style}
         ref={ref}
         onMouseOver={handleMouseOver}
-        className={className}
+        className={focused ? focusedClassName : className}
         onClick={handleButtonClick}
-        style={{ backgroundColor: focused ? 'red' : 'blue' }}
       >
         <Link to={to}>{children}</Link>
       </div>

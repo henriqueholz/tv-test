@@ -7,7 +7,7 @@ function App() {
   init({});
 
   return (
-    <div className='relative bg-gradient-to-b pb-8'>
+    <div>
       <Header />
       <Outlet />
     </div>
