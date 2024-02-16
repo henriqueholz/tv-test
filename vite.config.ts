@@ -14,6 +14,10 @@ export default defineConfig({
       targets: ['chrome >= 56'],
     }),
   ],
+  alias: {
+    '@': '/src',
+    '@components': '/src/components',
+  },
   test: {
     // 👋 add the line below to add jsdom to vite
     environment: 'jsdom',

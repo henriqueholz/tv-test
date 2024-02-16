@@ -3,9 +3,9 @@ import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
 import { useHeaderVisible } from '../store/pageStore';
-import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
-import { Link } from 'react-router-dom';
 import { useGithubUser } from '../api/fetchGithubUser';
+import { getPlatform } from '../utils/getPlatform';
+import { usePageStationData } from '../api/fetchPageStationData';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -77,13 +77,12 @@ export default function Home() {
       assets: assets,
     },
   ];
-
-  const { isLoading, error, data } = useGithubUser();
+  const platform = getPlatform();
+  // const { isLoading, error, data } = useGithubUser();
+  // const { isLoading, error, data } = usePageStationData();
 
   return (
     <div>
-      <h1>{data?.name}</h1>
-
       <div
         style={{
           backgroundColor: '#221c35',
