@@ -2,13 +2,16 @@ import { useEffect, useRef } from 'react';
 import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
+import { useHeaderVisible } from '../store/pageStore';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setFocus('Home');
+    setFocus('HOME');
   }, []);
+
+  const showHeader = useHeaderVisible((state) => state.showHeader);
 
   const assets = [
     {
@@ -105,6 +108,7 @@ export default function Home() {
                 <FocusButton
                   focusKey='VIDEO_PLAYER'
                   focusedClassName='border-4 border-hero-blue'
+                  onFocus={showHeader}
                 >
                   <div className='h-[640px] w-[1130px] bg-amber-500'>
                     PLAYER
