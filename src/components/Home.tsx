@@ -1,12 +1,74 @@
 import { useEffect } from 'react';
 import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
-import { ContentRow } from './ContentRow';
+import { Carousel } from './Carousel';
 
 export default function Home() {
   useEffect(() => {
     setFocus('Home');
   }, []);
+
+  const assets = [
+    {
+      title: 'Asset 1',
+      color: '#714ADD',
+    },
+    {
+      title: 'Asset 2',
+      color: '#AB8DFF',
+    },
+    {
+      title: 'Asset 3',
+      color: '#512EB0',
+    },
+    {
+      title: 'Asset 4',
+      color: '#714ADD',
+    },
+    {
+      title: 'Asset 5',
+      color: '#AB8DFF',
+    },
+    {
+      title: 'Asset 6',
+      color: '#512EB0',
+    },
+    {
+      title: 'Asset 7',
+      color: '#714ADD',
+    },
+    {
+      title: 'Asset 8',
+      color: '#AB8DFF',
+    },
+    {
+      title: 'Asset 9',
+      color: '#512EB0',
+    },
+  ];
+
+  const rows = [
+    {
+      title: 'Recommended',
+      assets: assets,
+    },
+    {
+      title: 'Movies',
+      assets: assets,
+    },
+    {
+      title: 'Series',
+      assets: assets,
+    },
+    {
+      title: 'TV Channels',
+      assets: assets,
+    },
+    {
+      title: 'Sport',
+      assets: assets,
+    },
+  ];
 
   return (
     <div>
@@ -48,8 +110,18 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div>
-        <ContentRow />
+      <div
+        style={{
+          backgroundColor: '#221c35',
+          width: '1440px',
+          height: '810px',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div className='flex h-[810px] w-[1440px] flex-row'>
+          <Carousel rows={rows} />
+        </div>
       </div>
     </div>
   );

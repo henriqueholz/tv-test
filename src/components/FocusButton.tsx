@@ -34,13 +34,10 @@ const FocusButton: React.FC<any> = ({
 
   return (
     <FocusContext.Provider value={focusKey}>
-      <div
-        ref={ref}
-        onMouseOver={handleMouseOver}
-        className={focused ? focusedClassName : className}
-        onClick={handleButtonClick}
-      >
-        <Link to={to}>{children}</Link>
+      <div ref={ref} onMouseOver={handleMouseOver} onClick={handleButtonClick}>
+        <div className={focused ? focusedClassName : className}>
+          <Link to={to}>{children}</Link>
+        </div>
       </div>
     </FocusContext.Provider>
   );
