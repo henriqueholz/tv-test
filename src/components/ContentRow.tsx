@@ -1,20 +1,13 @@
 import * as React from 'react';
 import {
-  FocusableComponentLayout,
   FocusContext,
-  FocusDetails,
-  KeyPressDetails,
+  getCurrentFocusKey,
+  setFocus,
   useFocusable,
 } from '@noriginmedia/norigin-spatial-navigation';
-import { Asset } from './Asset';
 import FocusButton from './FocusButton';
 
-export const ContentRow = ({
-  title: rowTitle,
-  assets,
-  onAssetPress,
-  onFocus,
-}: any) => {
+export const ContentRow = ({ assets, onFocus, columnIndex }: any) => {
   const { ref, focusKey } = useFocusable({
     onFocus,
   });
@@ -24,12 +17,24 @@ export const ContentRow = ({
   const onAssetFocus = React.useCallback(
     ({ x }: any) => {
       if (scrollingRef.current) {
+        scrollingRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
         scrollingRef.current.scrollLeft = x;
         scrollingRef.current.style.scrollBehavior = 'smooth';
       }
     },
     [scrollingRef]
   );
+
+  const onArrowPress = (direction: string) => {
+    const currentFocusKey = getCurrentFocusKey();
+    if (direction === 'up' && currentFocusKey.startsWith('content-row-0')) {
+      setFocus('VIDEO_PLAYER');
+      return false;
+    }
+  };
 
   return (
     <FocusContext.Provider value={focusKey}>
@@ -46,13 +51,15 @@ export const ContentRow = ({
           ref={scrollingRef}
         >
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {assets.map(({ title, color }) => (
+            {assets.map(({ title, color }, index) => (
               <FocusButton
                 focusedClassName='border-4 border-hero-blue'
                 onFocus={onAssetFocus}
                 className='h-[365px] w-[274px] bg-orange-500'
+                focusKey={`content-row-${columnIndex}-${index}`}
+                onArrowPress={onArrowPress}
               >
-                <div>mock</div>
+                <div>{`content-row-${columnIndex}-${index}`}</div>
               </FocusButton>
             ))}
           </div>
