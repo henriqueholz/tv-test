@@ -5,6 +5,8 @@ import { Carousel } from './Carousel';
 import { useHeaderVisible, useMenuPage } from '../store/pageStore';
 import { getPlatform } from '../utils/getPlatform';
 import { useMainFeedData } from '../api/fetchMainFeed';
+import { usePageStationData } from '../api/fetchPageStationData';
+import { getCurrentScheduleItem } from '../utils/getCurrentScheduleItem';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,15 +23,22 @@ export default function Home() {
   }, []);
 
   // const { isLoading, error, data } = useGithubUser();
-  // const { isLoading, error, data } = usePageStationData();
+  const {
+    isLoading: isPageStationLoading,
+    error: pageStationError,
+    data: pageStationData,
+  } = usePageStationData();
   const { isLoading, error, data: mainFeedData } = useMainFeedData();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || isPageStationLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error: {error?.message}</div>;
+  if (error || isPageStationLoading) return <div>Error: {error?.message}</div>;
 
   const data = mainFeedData?.data?.units.filter((obj) => obj.type === 'clips');
 
+  const fullSchedule = pageStationData?.data?.full_schedule;
+  const scheduleItem = getCurrentScheduleItem(fullSchedule);
+  console.info('scheduleItem', scheduleItem);
   return (
     <div>
       <div
@@ -65,8 +74,8 @@ export default function Home() {
                   focusedClassName='border-4 border-hero-blue'
                   onFocus={showHeader}
                 >
-                  <div className='h-[640px] w-[1130px] bg-amber-500'>
-                    PLAYER
+                  <div className='h-[640px] w-[1130px]'>
+                    <img src={scheduleItem.thumbnail} alt='PNG Image' />
                   </div>
                 </FocusButton>
                 <div>
@@ -108,7 +117,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-
               <Carousel newRef={ref} data={data} />
             </div>
           </div>

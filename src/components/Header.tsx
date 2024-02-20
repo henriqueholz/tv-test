@@ -1,22 +1,36 @@
 import { useEffect } from 'react';
 import FocusButton from './FocusButton';
-import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
+import {
+  getCurrentFocusKey,
+  setFocus,
+} from '@noriginmedia/norigin-spatial-navigation';
 import verylocal from '../assets/verylocal.svg';
 import SettingsIcon from '../assets/ic-settings.svg';
 import SearchIcon from '../assets/ic-search.svg';
 import { useNavigate } from 'react-router-dom';
 import { useHeaderVisible, useMenuPage } from '../store/pageStore';
+import { getObjectByKey } from '../utils/getObjectBykey';
 
 export const middleMenuItems = [
   {
     displayText: 'HOME',
     to: '/home',
     key: 'HEADER_HOME',
+    nav: {
+      right: 'HEADER_NEWS',
+      left: '',
+      down: 'VIDEO_PLAYER',
+    },
   },
   {
     displayText: 'NEWS',
     to: '/news',
     key: 'HEADER_NEWS',
+    nav: {
+      right: 'HEADER_SEARCH',
+      left: 'HEADER_HOME',
+      down: 'VIDEO_PLAYER',
+    },
   },
 ];
 
@@ -26,12 +40,22 @@ export const rightMenuItems = [
     to: '/search',
     alt: 'Search',
     key: 'HEADER_SEARCH',
+    nav: {
+      right: 'HEADER_SETTINGS',
+      left: 'HEADER_NEWS',
+      down: 'VIDEO_PLAYER',
+    },
   },
   {
     image: SettingsIcon,
     to: '/settings',
     alt: 'Settings',
     key: 'HEADER_SETTINGS',
+    nav: {
+      right: '',
+      left: 'HEADER_SEARCH',
+      down: 'VIDEO_PLAYER',
+    },
   },
 ];
 
@@ -47,6 +71,34 @@ export default function Header() {
 
   const handleNavigate = (url: string) => {
     navigate(url);
+  };
+
+  const onArrowPress = (direction: string) => {
+    const currentFocusKey = getCurrentFocusKey();
+    const menuItem = getObjectByKey(
+      [...middleMenuItems, ...rightMenuItems],
+      'key',
+      currentFocusKey
+    );
+    switch (direction) {
+      case 'left':
+        if (menuItem.nav.left) {
+          setFocus(menuItem.nav.left);
+        }
+        return false;
+      case 'right':
+        if (menuItem.nav.right) {
+          setFocus(menuItem.nav.right);
+        }
+        return false;
+      case 'down':
+        if (menuItem.nav.down) {
+          setFocus(menuItem.nav.down);
+        }
+        return false;
+      default:
+        return false;
+    }
   };
 
   return (
@@ -67,6 +119,7 @@ export default function Header() {
                     to={item.to}
                     onEnterPress={() => handleNavigate(item.to)}
                     focusedClassName='ml-[48-px] h-[48px] text-[32px] font-bold border-b-4 border-hero-blue'
+                    onArrowPress={onArrowPress}
                   >
                     {item.displayText}
                   </FocusButton>
@@ -78,9 +131,11 @@ export default function Header() {
             {rightMenuItems.map((item, index) => {
               return (
                 <FocusButton
+                  focusKey={item.key}
                   key={index}
                   className='h-[40px] w-[40px]'
                   focusedClassName='ml-[48-px] h-[48px] text-[32px] font-bold border-b-4 border-hero-blue'
+                  onArrowPress={onArrowPress}
                 >
                   <img
                     src={item.image}
