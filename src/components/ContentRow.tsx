@@ -7,7 +7,8 @@ import {
 } from '@noriginmedia/norigin-spatial-navigation';
 import FocusButton from './FocusButton';
 
-export const ContentRow = ({ assets, onFocus, columnIndex }: any) => {
+export const ContentRow = ({ onFocus, columnIndex, rowData }: any) => {
+  console.info('rowdata', rowData);
   const { ref, focusKey } = useFocusable({
     onFocus,
   });
@@ -51,7 +52,7 @@ export const ContentRow = ({ assets, onFocus, columnIndex }: any) => {
           ref={scrollingRef}
         >
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {assets.map(({ title, color }, index) => (
+            {rowData?.playlist.map((item: any, index: number) => (
               <FocusButton
                 focusedClassName='border-4 border-hero-blue'
                 onFocus={onAssetFocus}
@@ -59,7 +60,7 @@ export const ContentRow = ({ assets, onFocus, columnIndex }: any) => {
                 focusKey={`content-row-${columnIndex}-${index}`}
                 onArrowPress={onArrowPress}
               >
-                <div>{`content-row-${columnIndex}-${index}`}</div>
+                <div>{item.title}</div>
               </FocusButton>
             ))}
           </div>

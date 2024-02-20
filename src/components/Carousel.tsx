@@ -2,7 +2,8 @@ import * as React from 'react';
 import { ContentRow } from './ContentRow';
 import { useHeaderVisible } from '../store/pageStore';
 
-export const Carousel = ({ rows, newRef }: any) => {
+export const Carousel = ({ rows, newRef, data }: any) => {
+  console.info('carousel data', data);
   const hideHeader = useHeaderVisible((state) => state.hideHeader);
 
   const onRowFocus = React.useCallback(
@@ -18,11 +19,9 @@ export const Carousel = ({ rows, newRef }: any) => {
 
   return (
     <div>
-      {rows.map(({ title, assets }, index) => (
+      {data.map((item: any, index: number) => (
         <ContentRow
-          assets={assets}
-          key={title}
-          title={title}
+          rowData={item}
           columnIndex={index}
           // onAssetPress={onAssetPress}
           onFocus={onRowFocus}

@@ -1,5 +1,6 @@
-import { getPlatform } from '@/utils/getPlatform';
+import { getPlatform } from '../utils/getPlatform';
 import { useQuery } from 'react-query';
+import { MainFeed } from './mainFeedType';
 
 export type TGithubUser = {
   name: string;
@@ -16,8 +17,7 @@ export const fetchPageStationData = async () => {
   if (!res.ok) {
     throw new Error('Network response was not ok');
   }
-  const data = await res.json();
-  console.info('data', data);
+  const data = (await res.json()) as Promise<MainFeed>;
   return data;
 };
 

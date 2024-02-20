@@ -6,6 +6,7 @@ import { useHeaderVisible } from '../store/pageStore';
 import { useGithubUser } from '../api/fetchGithubUser';
 import { getPlatform } from '../utils/getPlatform';
 import { usePageStationData } from '../api/fetchPageStationData';
+import { useMainFeedData } from '../api/fetchMainFeed';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -80,6 +81,13 @@ export default function Home() {
   const platform = getPlatform();
   // const { isLoading, error, data } = useGithubUser();
   // const { isLoading, error, data } = usePageStationData();
+  const { isLoading, error, data: mainFeedData } = useMainFeedData();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error?.message}</div>;
+
+  const data = mainFeedData?.data?.units.filter((obj) => obj.type === 'clips');
 
   return (
     <div>
@@ -159,7 +167,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Carousel rows={rows} newRef={ref} />
+
+              <Carousel rows={rows} newRef={ref} data={data} />
             </div>
           </div>
         </div>
