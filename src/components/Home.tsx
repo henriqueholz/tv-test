@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
 import { useHeaderVisible, useMenuPage } from '../store/pageStore';
@@ -7,6 +6,7 @@ import { getPlatform } from '../utils/getPlatform';
 import { useMainFeedData } from '../api/fetchMainFeed';
 import { usePageStationData } from '../api/fetchPageStationData';
 import { getCurrentScheduleItem } from '../utils/getCurrentScheduleItem';
+import FocusButton from './FocusButton';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,7 +22,6 @@ export default function Home() {
     updateHeaderPage('HEADER_HOME');
   }, []);
 
-  // const { isLoading, error, data } = useGithubUser();
   const {
     isLoading: isPageStationLoading,
     error: pageStationError,
@@ -32,7 +31,7 @@ export default function Home() {
 
   if (isLoading || isPageStationLoading) return <div>Loading...</div>;
 
-  if (error || isPageStationLoading) return <div>Error: {error?.message}</div>;
+  if (error || pageStationError) return <div>Error: {error?.message}</div>;
 
   const data = mainFeedData?.data?.units.filter((obj) => obj.type === 'clips');
 
