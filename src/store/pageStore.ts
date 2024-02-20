@@ -7,3 +7,12 @@ export const useHeaderVisible = create((set) => {
     hideHeader: () => set(() => ({ headerVisible: false })),
   };
 });
+
+export const useMenuPage = create((set) => {
+  return {
+    headerPage: 'HEADER_HOME',
+    setMenuPage: () => set((page: string) => set(() => ({ menuPage: page }))),
+    updateHeaderPage: (headerPage: string) =>
+      set(() => ({ headerPage: headerPage })),
+  };
+});

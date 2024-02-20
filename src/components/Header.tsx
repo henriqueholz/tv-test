@@ -5,16 +5,18 @@ import verylocal from '../assets/verylocal.svg';
 import SettingsIcon from '../assets/ic-settings.svg';
 import SearchIcon from '../assets/ic-search.svg';
 import { useNavigate } from 'react-router-dom';
-import { useHeaderVisible } from '../store/pageStore';
+import { useHeaderVisible, useMenuPage } from '../store/pageStore';
 
 export const middleMenuItems = [
   {
     displayText: 'HOME',
     to: '/home',
+    key: 'HEADER_HOME',
   },
   {
     displayText: 'NEWS',
     to: '/news',
+    key: 'HEADER_NEWS',
   },
 ];
 
@@ -23,11 +25,13 @@ export const rightMenuItems = [
     image: SearchIcon,
     to: '/search',
     alt: 'Search',
+    key: 'HEADER_SEARCH',
   },
   {
     image: SettingsIcon,
     to: '/settings',
     alt: 'Settings',
+    key: 'HEADER_SETTINGS',
   },
 ];
 
@@ -37,6 +41,7 @@ export default function Header() {
   }, []);
 
   const showHeader = useHeaderVisible((state) => state.headerVisible);
+  const headerPage = useMenuPage((state) => state.headerPage);
 
   const navigate = useNavigate();
 
@@ -57,8 +62,8 @@ export default function Header() {
                 return (
                   <FocusButton
                     key={index}
-                    focusKey={item.displayText}
-                    className='ml-[48-px] h-[48px] text-[32px] font-bold text-gray'
+                    focusKey={item.key}
+                    className={`ml-[48-px] h-[48px] text-[32px] font-bold text-gray ${item.key === headerPage ? `text-white` : `text-gray`}`}
                     to={item.to}
                     onEnterPress={() => handleNavigate(item.to)}
                     focusedClassName='ml-[48-px] h-[48px] text-[32px] font-bold border-b-4 border-hero-blue'

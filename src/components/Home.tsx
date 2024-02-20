@@ -2,83 +2,24 @@ import { useEffect, useRef } from 'react';
 import FocusButton from './FocusButton';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
-import { useHeaderVisible } from '../store/pageStore';
-import { useGithubUser } from '../api/fetchGithubUser';
+import { useHeaderVisible, useMenuPage } from '../store/pageStore';
 import { getPlatform } from '../utils/getPlatform';
-import { usePageStationData } from '../api/fetchPageStationData';
 import { useMainFeedData } from '../api/fetchMainFeed';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
 
+  const showHeader = useHeaderVisible((state) => state.showHeader);
+  // const menuPage = useMenuPage((state) => state.setMenuPage);
+  const updateHeaderPage = useMenuPage((state) => state.updateHeaderPage);
+
+  const platform = getPlatform();
+
   useEffect(() => {
-    setFocus('HOME');
+    setFocus('HEADER_HOME');
+    updateHeaderPage('HEADER_HOME');
   }, []);
 
-  const showHeader = useHeaderVisible((state) => state.showHeader);
-
-  const assets = [
-    {
-      title: 'Asset 1',
-      color: '#714ADD',
-    },
-    {
-      title: 'Asset 2',
-      color: '#AB8DFF',
-    },
-    {
-      title: 'Asset 3',
-      color: '#512EB0',
-    },
-    {
-      title: 'Asset 4',
-      color: '#714ADD',
-    },
-    {
-      title: 'Asset 5',
-      color: '#AB8DFF',
-    },
-    {
-      title: 'Asset 6',
-      color: '#512EB0',
-    },
-    {
-      title: 'Asset 7',
-      color: '#714ADD',
-    },
-    {
-      title: 'Asset 8',
-      color: '#AB8DFF',
-    },
-    {
-      title: 'Asset 9',
-      color: '#512EB0',
-    },
-  ];
-
-  const rows = [
-    {
-      title: 'Recommended',
-      assets: assets,
-    },
-    {
-      title: 'Movies',
-      assets: assets,
-    },
-    {
-      title: 'Series',
-      assets: assets,
-    },
-    {
-      title: 'TV Channels',
-      assets: assets,
-    },
-    {
-      title: 'Sport',
-      assets: assets,
-    },
-  ];
-  const platform = getPlatform();
   // const { isLoading, error, data } = useGithubUser();
   // const { isLoading, error, data } = usePageStationData();
   const { isLoading, error, data: mainFeedData } = useMainFeedData();
@@ -168,7 +109,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <Carousel rows={rows} newRef={ref} data={data} />
+              <Carousel newRef={ref} data={data} />
             </div>
           </div>
         </div>

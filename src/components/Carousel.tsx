@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ContentRow } from './ContentRow';
 import { useHeaderVisible } from '../store/pageStore';
 
-export const Carousel = ({ rows, newRef, data }: any) => {
+export const Carousel = ({ newRef, data }: any) => {
   console.info('carousel data', data);
   const hideHeader = useHeaderVisible((state) => state.hideHeader);
 
