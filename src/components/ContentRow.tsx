@@ -18,10 +18,10 @@ export const ContentRow = ({ onFocus, columnIndex, rowData }: any) => {
   const onAssetFocus = React.useCallback(
     ({ x }: any) => {
       if (scrollingRef.current) {
-        scrollingRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
+        // scrollingRef.current.scrollIntoView({
+        //   behavior: 'smooth',
+        //   block: 'start',
+        // });
         scrollingRef.current.scrollLeft = x;
         scrollingRef.current.style.scrollBehavior = 'smooth';
       }
@@ -39,29 +39,30 @@ export const ContentRow = ({ onFocus, columnIndex, rowData }: any) => {
 
   return (
     <FocusContext.Provider value={focusKey}>
-      <div style={{ marginBottom: '37px' }} ref={ref}>
-        {/* <div className={containerClass(styles.contentRowTitle)}>{rowTitle}</div> */}
+      <div ref={ref}>
         <div
-          style={{
-            overflowX: 'auto',
-            overflowY: 'hidden',
-            flexShrink: '1',
-            flexGrow: '1',
-            paddingLeft: '60px',
-          }}
+          className='flex-shrink-1 flex-grow overflow-x-auto overflow-y-hidden'
           ref={scrollingRef}
         >
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div className='font-Effra_Std_Rg ml-4 h-14 text-4xl leading-tight tracking-wide text-white'>
+            {rowData.title}
+          </div>
+          <div className='flex flex-row'>
             {rowData?.playlist.map((item: any, index: number) => (
+              // <div className='mb-[66px] ml-[22px] mr-[22px] h-[396px] w-[400px]'>
               <FocusButton
-                focusedClassName='border-4 border-hero-blue'
+                focusedClassName='mb-[66px] ml-[22px] mr-[22px] w-[400px] h-[225px] border-4 border-hero-blue'
                 onFocus={onAssetFocus}
-                className='h-[365px] w-[274px] bg-orange-500'
+                className='mb-[66px] ml-[22px] mr-[22px] h-[225px] w-[400px]'
                 focusKey={`content-row-${columnIndex}-${index}`}
                 onArrowPress={onArrowPress}
               >
-                <div>{item.title}</div>
+                <img src={item.image_url} alt='PNG Image' />
               </FocusButton>
+              // <div className='leading-1.21 h-[141px] w-[400px] overflow-hidden text-4xl text-opacity-75'>
+              //   {item.title}
+              // </div>
+              // </div>
             ))}
           </div>
         </div>
