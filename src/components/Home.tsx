@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
 import { useHeaderVisible, useMenuPage } from '../store/pageStore';
@@ -7,11 +7,17 @@ import { useMainFeedData } from '../api/fetchMainFeed';
 import { usePageStationData } from '../api/fetchPageStationData';
 import { getCurrentScheduleItem } from '../utils/getCurrentScheduleItem';
 import FocusButton from './FocusButton';
+import { TVPlayer } from 'react-tv-player';
+
+const KEYDOWN_EVENT = 'keydown';
+const BACKSPACE = 'Backspace';
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
 
   const showHeader = useHeaderVisible((state) => state.showHeader);
+  const hideHeader = useHeaderVisible((state) => state.hideHeader);
+
   // const menuPage = useMenuPage((state) => state.setMenuPage);
   const updateHeaderPage = useMenuPage((state) => state.updateHeaderPage);
 
@@ -27,6 +33,43 @@ export default function Home() {
     error: pageStationError,
     data: pageStationData,
   } = usePageStationData();
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  useEffect(() => {
+    document.addEventListener(KEYDOWN_EVENT, keyEventListener);
+
+    showHeader();
+
+    return () => {
+      document.removeEventListener(KEYDOWN_EVENT, keyEventListener);
+    };
+  }, [ref.current]);
+
+  const keyEventListener = (event: KeyboardEvent) => {
+    console.info('event', event.key);
+    switch (event.key) {
+      case BACKSPACE:
+        toggleFullScreen();
+        break;
+      default:
+        // ignore the other key events
+        break;
+    }
+  };
+
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+    if (isFullScreen) {
+      showHeader();
+    }
+  };
+
+  const onArrowPress = (direction: string) => {
+    if (isFullScreen) {
+      return false;
+    }
+  };
+
   const { isLoading, error, data: mainFeedData } = useMainFeedData();
 
   if (isLoading || isPageStationLoading) return <div>Loading...</div>;
@@ -40,31 +83,11 @@ export default function Home() {
   console.info('scheduleItem', scheduleItem);
   return (
     <div>
-      <div
-        style={{
-          backgroundColor: '#221c35',
-          width: '1440px',
-          height: '810px',
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
+      <div className='flex h-[810px] w-[1440px] flex-row'>
         <div className='flex h-[810px] w-[1440px] flex-row'>
-          <div
-            style={{
-              flex: '1',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+          <div className='flex flex-1 flex-col overflow-hidden'>
             <div
-              style={{
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                flexShrink: '1',
-                flexGrow: '1',
-              }}
+              className='flex-shrink flex-grow overflow-y-auto overflow-x-hidden'
               ref={ref}
             >
               <div className='flex h-[640px]'>
@@ -72,9 +95,22 @@ export default function Home() {
                   focusKey='VIDEO_PLAYER'
                   focusedClassName='border-4 border-hero-blue'
                   onFocus={showHeader}
+                  onEnterPress={toggleFullScreen}
+                  onArrowPress={onArrowPress}
                 >
-                  <div className='h-[640px] w-[1130px]'>
-                    <img src={scheduleItem.thumbnail} alt='PNG Image' />
+                  <div
+                    className={
+                      isFullScreen
+                        ? 'fixed left-0 top-0 h-[100%] w-[100%]'
+                        : 'static h-[640px] w-[1130px] overflow-hidden'
+                    }
+                  >
+                    <TVPlayer
+                      url={pageStationData?.data.player_widget.url}
+                      controls={!isFullScreen}
+                      playing={true}
+                      height={'640px !important'}
+                    />
                   </div>
                 </FocusButton>
                 <div>

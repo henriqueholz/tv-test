@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.22.0",
+    "react-tv-player": "^1.1.5",
     "regenerator-runtime": "^0.14.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.4.1",

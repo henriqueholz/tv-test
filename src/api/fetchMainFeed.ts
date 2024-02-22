@@ -10,7 +10,7 @@ export type TGithubUser = {
 export const fetchMainFeed = async () => {
   const stationCode = 'htv-national-desk';
   const res = await fetch(
-    `https://prod.magnum.htvapps.com/api/v1/${stationCode}/frequency/main`
+    `https://magnum.htvkubestage.htvapps.com/api/v1/${stationCode}/frequency/main`
   );
   if (!res.ok) {
     throw new Error('Network response was not ok');
