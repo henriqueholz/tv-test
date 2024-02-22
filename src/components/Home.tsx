@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
 import { Carousel } from './Carousel';
 import { useHeaderVisible, useMenuPage } from '../store/pageStore';
-import { getPlatform } from '../utils/getPlatform';
 import { useMainFeedData } from '../api/fetchMainFeed';
 import { usePageStationData } from '../api/fetchPageStationData';
 import { getCurrentScheduleItem } from '../utils/getCurrentScheduleItem';
@@ -15,13 +14,13 @@ const BACKSPACE = 'Backspace';
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const showHeader = useHeaderVisible((state) => state.showHeader);
-  const hideHeader = useHeaderVisible((state) => state.hideHeader);
+  const showHeader = useHeaderVisible((state: any) => state.showHeader);
+  // const hideHeader = useHeaderVisible((state: any) => state.hideHeader);
 
   // const menuPage = useMenuPage((state) => state.setMenuPage);
-  const updateHeaderPage = useMenuPage((state) => state.updateHeaderPage);
+  const updateHeaderPage = useMenuPage((state: any) => state.updateHeaderPage);
 
-  const platform = getPlatform();
+  // const platform = getPlatform();
 
   useEffect(() => {
     setFocus('HEADER_HOME');
@@ -49,7 +48,7 @@ export default function Home() {
     console.info('event', event.key);
     switch (event.key) {
       case BACKSPACE:
-        toggleFullScreen();
+        setIsFullScreen(false);
         break;
       default:
         // ignore the other key events
@@ -58,25 +57,35 @@ export default function Home() {
   };
 
   const toggleFullScreen = () => {
+    console.info('isFullScreen', isFullScreen);
     setIsFullScreen(!isFullScreen);
     if (isFullScreen) {
       showHeader();
     }
   };
 
-  const onArrowPress = (direction: string) => {
+  const onArrowPress = () => {
     if (isFullScreen) {
       return false;
     }
+  };
+
+  const onEnterPress = () => {
+    if (isFullScreen) {
+      return;
+    }
+    toggleFullScreen();
   };
 
   const { isLoading, error, data: mainFeedData } = useMainFeedData();
 
   if (isLoading || isPageStationLoading) return <div>Loading...</div>;
 
-  if (error || pageStationError) return <div>Error: {error?.message}</div>;
+  if (error || pageStationError) return <div>Error</div>;
 
-  const data = mainFeedData?.data?.units.filter((obj) => obj.type === 'clips');
+  const data = mainFeedData?.data?.units.filter(
+    (obj: any) => obj.type === 'clips'
+  );
 
   const fullSchedule = pageStationData?.data?.full_schedule;
   const scheduleItem = getCurrentScheduleItem(fullSchedule);
@@ -95,7 +104,7 @@ export default function Home() {
                   focusKey='VIDEO_PLAYER'
                   focusedClassName='border-4 border-hero-blue'
                   onFocus={showHeader}
-                  onEnterPress={toggleFullScreen}
+                  onEnterPress={onEnterPress}
                   onArrowPress={onArrowPress}
                 >
                   <div

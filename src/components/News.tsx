@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import FocusButton from './FocusButton';
-import { setFocus } from '@noriginmedia/norigin-spatial-navigation';
-import { useHeaderVisible, useMenuPage } from '../store/pageStore';
+import { useMenuPage } from '../store/pageStore';
 
 export default function News() {
-  const updateHeaderPage = useMenuPage((state) => state.updateHeaderPage);
+  const updateHeaderPage = useMenuPage((state: any) => state.updateHeaderPage);
 
   useEffect(() => {
     updateHeaderPage('HEADER_NEWS');

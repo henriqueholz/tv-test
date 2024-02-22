@@ -64,8 +64,8 @@ export default function Header() {
     setFocus('Home');
   }, []);
 
-  const showHeader = useHeaderVisible((state) => state.headerVisible);
-  const headerPage = useMenuPage((state) => state.headerPage);
+  const showHeader = useHeaderVisible((state: any) => state.headerVisible);
+  const headerPage = useMenuPage((state: any) => state.headerPage);
 
   const navigate = useNavigate();
 
@@ -82,17 +82,17 @@ export default function Header() {
     );
     switch (direction) {
       case 'left':
-        if (menuItem.nav.left) {
+        if (menuItem?.nav.left) {
           setFocus(menuItem.nav.left);
         }
         return false;
       case 'right':
-        if (menuItem.nav.right) {
+        if (menuItem?.nav.right) {
           setFocus(menuItem.nav.right);
         }
         return false;
       case 'down':
-        if (menuItem.nav.down) {
+        if (menuItem?.nav.down) {
           setFocus(menuItem.nav.down);
         }
         return false;

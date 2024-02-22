@@ -1,6 +1,4 @@
-import { getPlatform } from '../utils/getPlatform';
 import { useQuery } from 'react-query';
-import { MainFeed } from './mainFeedType';
 
 export type TGithubUser = {
   name: string;

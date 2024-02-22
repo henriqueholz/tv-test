@@ -4,7 +4,7 @@ import { useHeaderVisible } from '../store/pageStore';
 
 export const Carousel = ({ newRef, data }: any) => {
   console.info('carousel data', data);
-  const hideHeader = useHeaderVisible((state) => state.hideHeader);
+  const hideHeader = useHeaderVisible((state: any) => state.hideHeader);
 
   const onRowFocus = React.useCallback(
     ({ y }: any) => {
